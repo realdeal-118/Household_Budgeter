@@ -26,7 +26,7 @@ namespace Household_Budgeter.Migrations
 
             string[] demoName =
             {
-                "zxiong1008@gmail.com", "Admin@HouseholdBudget.com", "Husband@HouseholdBudget.com", "Wife@HouseholdBudget.com",
+                "leotis.fields@gmail.com", "Admin@HouseholdBudget.com", "Husband@HouseholdBudget.com", "Wife@HouseholdBudget.com",
                 "Son@HouseholdBudget.com", "Daughter@HouseholdBudget.com"
             };
             string demoPassword = "Password-1";
@@ -71,14 +71,14 @@ namespace Household_Budgeter.Migrations
             var uStore = new UserStore<ApplicationUser>(context);
             var userManager = new UserManager<ApplicationUser>(uStore);
 
-            if (!userManager.Users.Any(u => u.Email == "zxiong1008@gmail.com"))
+            if (!userManager.Users.Any(u => u.Email == "leotis.fields@gmail.com"))
             {
                 userManager.Create(new ApplicationUser
                 {
-                    UserName = "zxiong1008@gmail.com",
-                    Email = "zxiong1008@gmail.com",
-                    FirstName = "Zeng",
-                    LastName = "Xiong",
+                    UserName = "leotis.fields@gmail.com",
+                    Email = "leotis.fields@gmail.com",
+                    FirstName = "Leotis",
+                    LastName = "Fields",
                     HouseholdId = household.Id,
                     EmailConfirmed = true
                 }, demoPassword);

@@ -40,8 +40,10 @@ namespace Household_Budgeter.Controllers
         //    return View(transaction);
         //}
 
+
+
         // GET: Transactions/Create
-        public ActionResult Create()
+        public PartialViewResult _CreateTrans()
         {
             var user = db.Users.Find(User.Identity.GetUserId());
 
@@ -49,7 +51,20 @@ namespace Household_Budgeter.Controllers
 
             ViewBag.BankAccountsId = new SelectList(getAccount, "Id", "Name");
             ViewBag.CategoryId = new SelectList(db.Category, "Id", "Name");
-            return View();
+            return PartialView();
+        }
+
+
+        // GET: Transactions/Create
+        public PartialViewResult Create()
+        {
+            var user = db.Users.Find(User.Identity.GetUserId());
+
+            var getAccount = db.BankAccounts.Where(u => user.HouseholdId == u.HouseholdId).ToList();
+
+            ViewBag.BankAccountsId = new SelectList(getAccount, "Id", "Name");
+            ViewBag.CategoryId = new SelectList(db.Category, "Id", "Name");
+            return PartialView();
         }
 
         // POST: Transactions/Create
@@ -75,7 +90,7 @@ namespace Household_Budgeter.Controllers
                     transaction.Reconciled = true;
                 }
 
-                if (transaction.Reconciled == true)
+                if (transaction.Types == true)
                 {
                     account.Balance += transaction.Amount;
                 }

@@ -48,10 +48,17 @@ namespace Household_Budgeter.Controllers
         }
 
         // GET: BankAccounts/Create
-        public ActionResult Create()
+        public PartialViewResult _CreateBankAccount()
         {
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
-            return View();
+            return PartialView();
+        }
+
+        // GET: BankAccounts/Create
+        public PartialViewResult Create()
+        {
+            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
+            return PartialView();
         }
 
         // POST: BankAccounts/Create
@@ -109,7 +116,7 @@ namespace Household_Budgeter.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,HouseholdId,Name,Created,Balance,InitialBalance,ReconcileBalance")] BankAccount bankAccount)
+        public ActionResult Edit([Bind(Include = "Id,HouseholdId,Name,Created,Balance,InitialBalance,ReconcileBalance,WarningBalance")] BankAccount bankAccount)
         {
             bankAccount.Created = new DateTimeOffset(DateTime.Now);
 
@@ -137,7 +144,7 @@ namespace Household_Budgeter.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Update([Bind(Include = "Id,HouseholdId,Name,Created,Balance,InitialBalance,ReconcileBalance")] BankAccount bankAccount)
+        public ActionResult Update([Bind(Include = "Id,HouseholdId,Name,Created,Balance,InitialBalance,ReconcileBalance,WarningBalance")] BankAccount bankAccount)
         {
             bankAccount.Created = new DateTimeOffset(DateTime.Now);
 

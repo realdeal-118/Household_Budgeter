@@ -4,10 +4,9 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>More Household Information</h2>
 
 <div>
-    <h4>Household</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -20,9 +19,9 @@
             Member(s)
         </dt>
         <dd>
-            @foreach(var item in Model.Members)
+            @foreach (var item in Model.Members)
             {
-                @item.UserName<br/>
+                @item.UserName<br />
             }
         </dd>
         <dt>

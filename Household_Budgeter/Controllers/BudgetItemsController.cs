@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Household_Budgeter.Controllers
 {
+    [Authorize]
     public class BudgetItemsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -19,11 +20,10 @@ namespace Household_Budgeter.Controllers
         public ActionResult Index()
         {
             var user = db.Users.Find(User.Identity.GetUserId());
+            var budgetItems = db.BudgetItems.Include(h => h.Budget.Household).Include(b => b.Budget).Include(b => b.Category);
 
             Household household = db.Households.Find(user.HouseholdId);
 
-
-            var budgetItems = db.BudgetItems.Include(h => h.Budget.Household).Include(b => b.Budget).Include(b => b.Category);
 
             if (household == null)
             {
@@ -109,9 +109,9 @@ namespace Household_Budgeter.Controllers
             Budget budget = db.Budgets.FirstOrDefault(b => b.Id == budgetItem.Id);
 
             //then the budget's household owner
-            Household household = db.Households.FirstOrDefault(h => h.Id == budget.Id);
+            Household household = db.Households.FirstOrDefault(h => h.Id == budgetItem.Id);
 
-            if (!household.Members.Contains(user))
+            if (household.Members.Contains(user))
             {
                 return RedirectToAction("Unauthorized", "Error");
             }
@@ -153,6 +153,7 @@ namespace Household_Budgeter.Controllers
         public ActionResult Delete(int? id)
         {
             var user = db.Users.Find(User.Identity.GetUserId());
+
             BudgetItem budgetItem = db.BudgetItems.FirstOrDefault(b => b.Id == id);
             Budget budget = db.Budgets.FirstOrDefault(b => b.Id == budgetItem.BudgetId);
             Household household = db.Households.FirstOrDefault(h => h.Id == budget.HouseHoldId);
@@ -183,9 +184,9 @@ namespace Household_Budgeter.Controllers
             Budget budget = db.Budgets.FirstOrDefault(b => b.Id == budgetItem.Id);
 
             //then the budget's household owner
-            Household household = db.Households.FirstOrDefault(h => h.Id == budget.Id);
+            Household household = db.Households.FirstOrDefault(h => h.Id == budgetItem.Id);
 
-            if (!household.Members.Contains(user))
+            if (household.Members.Contains(user))
             {
                 return RedirectToAction("Unauthorized", "Error");
             }

@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Household_Budgeter.Controllers
 {
+    [Authorize]
     public class BudgetsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -26,13 +27,12 @@ namespace Household_Budgeter.Controllers
 
 
             var budgets = db.Budgets.Where(u => u.HouseHoldId == user.HouseholdId).Include(b => b.Household);
-            
+
             //if user does not have household, create one
             if (household == null)
             {
                 return RedirectToAction("Create", "households");
             }
-
             return View(budgets);
         }
 
@@ -52,12 +52,25 @@ namespace Household_Budgeter.Controllers
         }
 
         // GET: Budgets/Create
-        public PartialViewResult Create()
+        public PartialViewResult _CreateBudget()
         {
-            ViewBag.HouseHoldId = new SelectList(db.Households, "Id", "Name");
+            var user = db.Users.Find(User.Identity.GetUserId());
+
+            var getHouse = db.Households.Where(u => user.HouseholdId == u.Id).ToList();
+
+            ViewBag.HouseHoldId = new SelectList(getHouse, "Id", "Name");
             return PartialView();
         }
 
+        public PartialViewResult Create()
+        {
+            var user = db.Users.Find(User.Identity.GetUserId());
+
+            var getHouse = db.Households.Where(u => user.HouseholdId == u.Id).ToList();
+
+            ViewBag.HouseHoldId = new SelectList(getHouse, "Id", "Name");
+            return PartialView();
+        }
         // POST: Budgets/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -69,7 +82,7 @@ namespace Household_Budgeter.Controllers
             {
                 db.Budgets.Add(budget);
                 db.SaveChanges();
-                return RedirectToAction("Index", "BudgetItems");
+                return RedirectToAction("Index");
             }
 
             ViewBag.HouseHoldId = new SelectList(db.Households, "Id", "Name", budget.HouseHoldId);
@@ -85,13 +98,15 @@ namespace Household_Budgeter.Controllers
             //then the user's budget
             Budget budget = db.Budgets.FirstOrDefault(b => b.Id == id);
 
+            BudgetItem budgetItem = db.BudgetItems.FirstOrDefault(b => b.Id == budget.Id);
+
             //then the budget's household owner
             Household household = db.Households.FirstOrDefault(h => h.Id == budget.Id);
 
-            if (!household.Members.Contains(user))
-            {
-                return RedirectToAction("Unauthorized", "Error");
-            }
+            //if (!household.Members.Contains(user))
+            //{
+            //    return RedirectToAction("Unauthorized", "Error");
+            //}
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -122,6 +137,7 @@ namespace Household_Budgeter.Controllers
         }
 
         // GET: Budgets/Delete/5
+        
         public ActionResult Delete(int? id)
         {
             //heirarchy where we find the user
@@ -133,10 +149,10 @@ namespace Household_Budgeter.Controllers
             //then the budget's household owner
             Household household = db.Households.FirstOrDefault(h => h.Id == budget.Id);
 
-            if (!household.Members.Contains(user))
-            {
-                return RedirectToAction("Unauthorized", "Error");
-            }
+            //if (!household.Members.Contains(user))
+            //{
+            //    return RedirectToAction("Unauthorized", "Error");
+            //}
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -161,11 +177,6 @@ namespace Household_Budgeter.Controllers
 
             //then the budget's household owner
             Household household = db.Households.FirstOrDefault(h => h.Id == budget.Id);
-
-            if (!household.Members.Contains(user))
-            {
-                return RedirectToAction("Unauthorized", "Error");
-            }
 
             db.Budgets.Remove(budget);
             db.SaveChanges();

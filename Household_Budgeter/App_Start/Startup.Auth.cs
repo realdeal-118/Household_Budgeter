@@ -58,25 +58,26 @@ namespace Household_Budgeter
             //   consumerKey: "",
             //   consumerSecret: "");
 
+           
+
             app.UseFacebookAuthentication(
-                appId: "859228767511414",
-                appSecret: "8f35735d41bdcc3ea3c651a258dc1271"
-                );
+               appId: "1706874229555907",
+               appSecret: "0d47c670c46c4ad64502c84546a1ff28");
 
-            app.UseGitHubAuthentication(
-                clientId: "fb77ec8985a2b91d699c",
-                clientSecret: "7ea998c67bbbdba43f3652e348657a7a72ac2ac6"
-                );
+            //app.UseGitHubAuthentication(
+            //    clientId: "fb77ec8985a2b91d699c",
+            //    clientSecret: "7ea998c67bbbdba43f3652e348657a7a72ac2ac6"
+            //    );
 
-            app.UseLinkedInAuthentication(
-               clientId: "774hnteeakjd7h",
-               clientSecret: "RQMClzqSlH37ru3F"
-               );
+            //app.UseLinkedInAuthentication(
+            //   clientId: "774hnteeakjd7h",
+            //   clientSecret: "RQMClzqSlH37ru3F"
+            //   );
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "492664677410-ch34f86nlupq3ng2hsac5v9vuq3nv4mv.apps.googleusercontent.com",
-                ClientSecret = "3vP5iq9MHN9RidLAzt8-GIV_"
+                ClientId = "1044103398346-qsj22jad5cveu8bd90g0sq23q54rass8.apps.googleusercontent.com",
+                ClientSecret = "2sFLQWo1Oj9KSPYcXJH3EgiB"
             });
         }
     }

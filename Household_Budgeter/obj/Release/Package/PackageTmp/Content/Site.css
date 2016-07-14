@@ -22,3 +22,10 @@ select,
 textarea {
     max-width: 280px;
 }
+#sidebar{
+    background-color:#EA8B11;
+    color: #4cff00;
+}
+li {
+    color:#81E5F1;
+}

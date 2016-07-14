@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using Household_Budgeter.Models;
 using System.Data.Entity;
 
+
 namespace Household_Budgeter.Controllers
 {
     [Authorize]

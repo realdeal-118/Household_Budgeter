@@ -44,6 +44,8 @@ namespace Household_Budgeter.Models
 
         public decimal Balance { get; set; }
         public decimal InitialBalance { get; set; }
+
+        [Display(Name ="Reconcile Balance")]
         public decimal ReconcileBalance { get; set; }
         public decimal WarningBalance { get; set; }
 
@@ -95,8 +97,13 @@ namespace Household_Budgeter.Models
     //BudgetItem income and expenses
     public class BudgetItem
     {
+        [Display(Name ="Budget Name")]
         public int Id { get; set; }
+
+        [Display(Name ="Budget Name")]
         public int BudgetId { get; set; }
+
+        [Display(Name = "Category Name")]
         public int CategoryId { get; set; }
 
         public decimal Amount { get; set; }
@@ -147,6 +154,31 @@ namespace Household_Budgeter.Models
         public int Id { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+
+    }
+
+    public class DashboardViewModels
+    {
+     
+        public Household Households { get; set; }
+        public ICollection<Invitation> Invitations { get; set; }
+        public Budget Budgets { get; set; }
+        public ICollection<BankAccount> BankAccounts { get; set; }
+        public ICollection<Transaction> Transactions { get; set; }
+        public ICollection<Category> Categories { get; set; }
+        public BudgetItem BudgetItems { get; set; }
+
+        public int GetBudgetId { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:d}")]
+        public DateTimeOffset begin { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:d}")]
+        public DateTimeOffset end { get; set; }
+
+
+        public int setLowBalance { get; set; }
+
 
     }
 }
